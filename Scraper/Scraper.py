@@ -19,12 +19,19 @@ album_ids = list()
 for i in range(len(album_list)):
     album_ids.append(album_list[i]['album']['album_id'])
 
-tracksQuery = base_url + 'album.tracks.get?' + api_key + 'album_id=' + album_ids[0] + '&page=1&page_size=2'
+tracksQuery = base_url + 'album.tracks.get?' + api_key + 'album_id=' + str(album_ids[0]) + '&page=1&page_size=2'
 r = requests.get(tracksQuery)
 tracks_dict = r.json()
-tracks_list = tracks_dict['message']['body']['track_list']['track']
+tracks_list = tracks_dict['message']['body']['track_list']
 track_ids = list()
 for i in range(len(tracks_list)):
     track_ids.append(tracks_list[i]['track']['track_id'])
 
-lyricsQuery
+lyricsQuery = base_url + 'track.lyrics.get?' + api_key + 'track_id=15953433'
+r = requests.get(lyricsQuery)
+lyrics_dict = r.json()
+lyrics_body = lyrics_dict['message']['body']['lyrics']['lyrics_body']
+
+print lyrics_body
+
+# TODO: Loop for all lyrics
