@@ -87,8 +87,9 @@ for i in lyrics_list:
     os.chdir(os.getcwd() + os.sep + artist_dir)
     album_name = album_names_ids[album_id]['album_name']
     album_dir1 = album_name + '_' + str(album_id)
-    album_dir = re.sub(r'[\\/:*?"<>|]', '', album_dir1)
-    album_dir = re.sub(r'[^\x00-\x7F]', ' ', album_dir)
+    album_dir2 = re.sub(r'[\\/:*?"<>|]', '', album_dir1)
+    album_dir = ''.join(i for i in album_dir2 if ord(i) < 128)
+    print album_dir
     if album_dir not in os.listdir(os.getcwd()):
         os.mkdir(album_dir)
     os.chdir(album_dir)
@@ -98,6 +99,6 @@ for i in lyrics_list:
     track_file_name += '.txt'
     file_object = open(track_file_name, 'w')
     lyrics = lyrics_list[i][:lyrics_list[i].rfind('******* This Lyrics is NOT for Commercial use *******')]
-    ascii_lyrics = re.sub(r'[^\x00-\x7F]', '', lyrics)
+    ascii_lyrics = ''.join(i for i in lyrics if ord(i) < 128)
     file_object.write(ascii_lyrics)
     os.chdir(home_directory)
