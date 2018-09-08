@@ -28,7 +28,7 @@ try:
         artist_ids.append(artist_list[i]['artist']['artist_id'])
 except:
     print "Couldn't find artist"
-    exit()
+    # exit()
 
 album_names_ids = dict()
 for i in range(len(artist_ids)):
@@ -43,13 +43,14 @@ for i in range(len(artist_ids)):
             album_names_ids[album_list[j]['album']['album_id']] = value_dict
     except:
         print "Couldn't find albums"
-        exit()
+        #exit()
 
 track_ids = dict()
 for i in album_names_ids:
     try:
         tracksQuery = base_url + 'album.tracks.get?' + api_key + 'album_id=' + str(i) + \
                       '&page_size=10'  # Finding the tracks of each album
+        print tracksQuery
         r = requests.get(tracksQuery)
         tracks_dict = r.json()
         tracks_list = tracks_dict['message']['body']['track_list']
@@ -58,7 +59,7 @@ for i in album_names_ids:
                                                               'album_id': i}
     except:
         print "Couldn't find tracks"
-        exit()
+        #exit()
 
 lyrics_list = dict()
 error_track_ids = list()
@@ -89,7 +90,7 @@ for i in lyrics_list:
     album_dir1 = album_name + '_' + str(album_id)
     album_dir2 = re.sub(r'[\\/:*?"<>|]', '', album_dir1)
     album_dir = ''.join(i for i in album_dir2 if ord(i) < 128)
-    print album_dir
+    #print album_dir
     if album_dir not in os.listdir(os.getcwd()):
         os.mkdir(album_dir)
     os.chdir(album_dir)
