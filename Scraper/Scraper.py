@@ -88,6 +88,7 @@ for i in lyrics_list:
     album_name = album_names_ids[album_id]['album_name']
     album_dir1 = album_name + '_' + str(album_id)
     album_dir = re.sub(r'[\\/:*?"<>|]', '', album_dir1)
+    album_dir = re.sub(r'[^\x00-\x7F]', ' ', album_dir)
     if album_dir not in os.listdir(os.getcwd()):
         os.mkdir(album_dir)
     os.chdir(album_dir)
