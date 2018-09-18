@@ -21,6 +21,7 @@ artist_ids = list()
 try:
     artist_query = base_url + 'artist.search?' + api_key + 'q_artist=' + artist_name + '&page_size=' + \
                    str(page_size)  # taking the arguments from args
+    print artist_query
     r = requests.get(artist_query)
     artist_dict = r.json()
     artist_list = artist_dict['message']['body']['artist_list']  # finding the list of artists with the given name
