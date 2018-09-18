@@ -91,10 +91,11 @@ folder = '..\Corpus'  # Keep Corpus and Scraper in the same directory
 #fo= open('model.json', 'w')
 #fo.write('')
 #exit()
-try:
-    ind = json.load(open('model.json'))
-except IOError:
-    ind = {}
+#try:
+#    ind = json.load(open('model.json'))
+#except IOError:
+#    ind = {}
+ind= {}
 ind = Indexer.create_matrix(folder, ind)
 fo= open('model.json', 'w')
 pprint(ind)
