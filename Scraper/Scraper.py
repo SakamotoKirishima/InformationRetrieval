@@ -98,6 +98,7 @@ for i in lyrics_list:
     track_name = track_ids[i]['track_name']
     track_file_name1 = track_name + '_' + str(i)
     track_file_name = re.sub(r'[\\/:*?"<>|]', '', track_file_name1)
+    ascii_track_file_name=''.join(i for i in album_dir2 if ord(i) < 128)
     track_file_name += '.txt'
     file_object = open(track_file_name, 'w')
     lyrics = lyrics_list[i][:lyrics_list[i].rfind('******* This Lyrics is NOT for Commercial use *******')]
