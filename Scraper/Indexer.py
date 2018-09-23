@@ -36,7 +36,6 @@ class Indexer:
     def return_tf(fo, w):
         fo.seek(0)
         s= fo.read()
-        print "IN"
         new_text=''.join(Indexer.return_tokens(s,set(stopwords.words('english'))))
         tf_t_d = new_text.count(w)
         return tf_t_d  # 1 + math.log10(tf_t_d)
@@ -101,5 +100,4 @@ folder = '..\Corpus'  # Keep Corpus and Scraper in the same directory
 ind= {}
 ind = Indexer.create_matrix(folder, ind)
 fo= open('model.json', 'w')
-pprint(ind)
 json.dump(ind, fo)
