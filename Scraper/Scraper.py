@@ -19,7 +19,7 @@ page_size = args.page_size
 artist_list = list()
 artist_ids = list()
 try:
-    artist_query = base_url + 'artist.search?' + api_key + 'q_artist=' + artist_name + '&page_size=' + \
+    artist_query = base_url + 'artist.search?' + api_key + '&q_artist=' + artist_name + '&page_size=' + \
                    str(page_size)  # taking the arguments from args
     print artist_query
     r = requests.get(artist_query)
@@ -34,7 +34,7 @@ except:
 album_names_ids = dict()
 for i in range(len(artist_ids)):
     try:
-        albums_query = base_url + 'artist.albums.get?' + api_key + 'artist_id=' + str(artist_ids[i]) \
+        albums_query = base_url + 'artist.albums.get?' + api_key + '&artist_id=' + str(artist_ids[i]) \
                        + '&s_release_date=desc'  # Finding the albums of the artists
         r = requests.get(albums_query)
         album_dict = r.json()
@@ -49,7 +49,7 @@ for i in range(len(artist_ids)):
 track_ids = dict()
 for i in album_names_ids:
     try:
-        tracksQuery = base_url + 'album.tracks.get?' + api_key + 'album_id=' + str(i) + \
+        tracksQuery = base_url + 'album.tracks.get?' + api_key + '&album_id=' + str(i) + \
                       '&page_size=10'  # Finding the tracks of each album
         print tracksQuery
         r = requests.get(tracksQuery)
@@ -65,7 +65,7 @@ for i in album_names_ids:
 lyrics_list = dict()
 error_track_ids = list()
 for i in track_ids:
-    lyricsQuery = base_url + 'track.lyrics.get?' + api_key + 'track_id=' + str(i)
+    lyricsQuery = base_url + 'track.lyrics.get?' + api_key + '&track_id=' + str(i)
     r = requests.get(lyricsQuery)  # Finding the lyrics
     lyrics_dict = r.json()
     try:

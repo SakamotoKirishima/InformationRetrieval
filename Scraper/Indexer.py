@@ -34,8 +34,11 @@ class Indexer:
 
     @staticmethod
     def return_tf(fo, w):
-        s = fo.read()
-        tf_t_d = s.count(w)
+        fo.seek(0)
+        s= fo.read()
+        print "IN"
+        new_text=''.join(Indexer.return_tokens(s,set(stopwords.words('english'))))
+        tf_t_d = new_text.count(w)
         return tf_t_d  # 1 + math.log10(tf_t_d)
 
     @staticmethod
