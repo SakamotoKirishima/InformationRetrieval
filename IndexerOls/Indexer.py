@@ -86,7 +86,7 @@ class Indexer:
 # nltk.download('wordnet')
 # The above 3 download the requirements for any nltk methods I have used to
 # function properly. They need to be run the first time, after which you can comment them out
-folder = '..\Corpus'  # Keep Corpus and Scraper in the same directory
+folder = 'Corpus'  # Keep Corpus and Scraper in the same directory
 # pprint(FileManager.get_all_file_names(folder))
 # exit()
 # fo= open('model.json', 'w')

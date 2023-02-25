@@ -21,14 +21,14 @@ artist_ids = list()
 try:
     artist_query = base_url + 'artist.search?' + api_key + '&q_artist=' + artist_name + '&page_size=' + \
                    str(page_size)  # taking the arguments from args
-    print artist_query
+    print(artist_query)
     r = requests.get(artist_query)
     artist_dict = r.json()
     artist_list = artist_dict['message']['body']['artist_list']  # finding the list of artists with the given name
     for i in range(len(artist_list)):
         artist_ids.append(artist_list[i]['artist']['artist_id'])
 except:
-    print "Couldn't find artist"
+    print("Couldn't find artist")
     # exit()
 
 album_names_ids = dict()
@@ -43,7 +43,7 @@ for i in range(len(artist_ids)):
             value_dict = {'album_name': album_list[j]['album']['album_name'], 'artist_id': artist_ids[i]}
             album_names_ids[album_list[j]['album']['album_id']] = value_dict
     except:
-        print "Couldn't find albums"
+        print("Couldn't find albums")
         #exit()
 
 track_ids = dict()
@@ -51,7 +51,7 @@ for i in album_names_ids:
     try:
         tracksQuery = base_url + 'album.tracks.get?' + api_key + '&album_id=' + str(i) + \
                       '&page_size=10'  # Finding the tracks of each album
-        print tracksQuery
+        print(tracksQuery)
         r = requests.get(tracksQuery)
         tracks_dict = r.json()
         tracks_list = tracks_dict['message']['body']['track_list']
@@ -59,7 +59,7 @@ for i in album_names_ids:
             track_ids[tracks_list[j]['track']['track_id']] = {'track_name': tracks_list[j]['track']['track_name'],
                                                               'album_id': i}
     except:
-        print "Couldn't find tracks"
+        print("Couldn't find tracks")
         #exit()
 
 lyrics_list = dict()
@@ -77,16 +77,17 @@ for i in track_ids:
 for i in error_track_ids:
     track_ids.pop(i)
 
-home_directory = os.getcwd()
+home_directory = 'D:\Documents\Python Scripts\InformationRetrieval\Corpus'
 for i in lyrics_list:
     album_id = track_ids[i]['album_id']
     artist_id = album_names_ids[album_id]['artist_id']
     s = '_'
     artist_dir = artist_name.replace('%20', ' ') + s + str(artist_id)
     artist_dir = re.sub(r'[\\/:*?"<>|]', "", artist_dir)
+    os.chdir(home_directory)
     if artist_dir not in os.listdir(os.getcwd()):
         os.mkdir(artist_dir)
-    os.chdir(os.getcwd() + os.sep + artist_dir)
+    os.chdir(home_directory + os.sep + artist_dir)
     album_name = album_names_ids[album_id]['album_name']
     album_dir1 = album_name + '_' + str(album_id)
     album_dir2 = re.sub(r'[\\/:*?"<>|]', '', album_dir1)

@@ -1,7 +1,9 @@
 import json
 import math
+import os
 from pprint import pprint
 
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
@@ -34,9 +36,11 @@ class Indexer:
         return tokens_new
 
     @staticmethod
-    def return_tf(fo, w):
-        s = fo.read()
-        tf_t_d = s.count(w)
+    def return_tf(fc, w):
+        # print(fc)
+        # print(w)
+        tf_t_d = fc.count(w)
+        # print(tf_t_d)
         return tf_t_d  # 1 + math.log10(tf_t_d)
 
     @staticmethod
@@ -62,13 +66,17 @@ class Indexer:
             file_content = file_object.read()
             tokens = Indexer.return_tokens(file_content, stop_words)
             for token in tokens:
+                # print(token)
                 try:
                     current_data = index[token]
                 except KeyError:
                     current_data = list()
-                to_add = {'Name': file_name, 'TF': Indexer.return_tf(file_object, token)}
+                to_add = {'Name': file_name, 'TF': Indexer.return_tf(file_content, token)}
+                # print(to_add)
+                # exit()
                 current_data.append(to_add)
                 index[token] = current_data
+            file_object.close()
             # exit()
             # return index
         return index
@@ -86,7 +94,9 @@ class Indexer:
 # nltk.download('wordnet')
 # The above 3 download the requirements for any nltk methods I have used to
 # function properly. They need to be run the first time, after which you can comment them out
-folder = 'D:\Study Docs\CS\Information Retrieval\Assignment1\InformationRetrieval-master\Corpus'  # Keep Corpus and Scraper in the same directory
+folder = '..' + os.sep + 'Corpus'  # Keep Corpus and Scraper in the same directory
+# os.chdir(folder)
+# print(os.getcwd())
 # pprint(FileManager.get_all_file_names(folder))
 # exit()
 # fo= open('model.json', 'w')
@@ -98,6 +108,8 @@ folder = 'D:\Study Docs\CS\Information Retrieval\Assignment1\InformationRetrieva
 #    ind = {}
 ind = {}
 ind = Indexer.create_matrix(folder, ind)
-fo = open('model.json', 'w')
-pprint(ind)
+json_file_path = '..' + os.sep + 'Retriever' + os.sep + 'model.json'
+fo = open(json_file_path, 'w')
+# pprint(ind)
 json.dump(ind, fo)
+fo.close()
